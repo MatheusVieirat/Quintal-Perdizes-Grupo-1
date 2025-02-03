@@ -1,0 +1,127 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo do corpo */
+body {
+    background-color: #FFFFFF; /* Fundo branco puro */
+    color: #333333; /* Texto principal - cinza escuro */
+    line-height: 1.6;
+}
+
+/* Cabeçalho */
+header {
+    background: #D2A679; /* Caramelo quente */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Seções */
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #FFFFFF; /* Fundo branco */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border: 1px solid #E0E0E0; /* Bordas finas */
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #D2A679; /* Caramelo */
+}
+
+/* Formulário de Contato */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+form label {
+    display: block;
+    margin: 5px 0;
+    font-weight: bold;
+    color: #333333; /* Texto principal */
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+    background: #FFFFFF;
+    color: #333333;
+}
+
+form input:focus, form textarea:focus {
+    border-color: #4A90E2; /* Azul para destaque */
+    outline: none;
+}
+
+/* Botão de envio */
+form button {
+    background: #4A90E2; /* Azul suave */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+form button:hover {
+    background: #357ABD;
+}
+
+/* Feedback da mensagem */
+#feedback {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Feedback positivo e erro */
+.success {
+    color: #50C878; /* Verde sutil para sucesso */
+}
+
+.error {
+    color: #E57373; /* Vermelho pastel para erro */
+}
+
+/* Rodapé */
+footer {
+    background: #D2A679; /* Caramelo */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
