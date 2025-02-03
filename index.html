@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quintal Perdizes</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 15px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+        }
+        .galeria-container img {
+            width: 200px;
+            margin: 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin: auto;
+        }
+        form input, form textarea {
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        form button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #mensagem-sucesso {
+            color: green;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quintal Perdizes</h1>
+        <nav>
+            <ul>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#galeria">Galeria</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="sobre">
+            <h2>Sobre Nós</h2>
+            <p>Bem-vindo ao Quintal Perdizes! Um espaço único para experiências inesquecíveis.</p>
+        </section>
+        
+        <section id="galeria">
+            <h2>Galeria</h2>
+            <div class="galeria-container">
+                <img src="imagem1.jpg" alt="Imagem 1">
+                <img src="imagem2.jpg" alt="Imagem 2">
+            </div>
+        </section>
+        
+        <section id="contato">
+            <h2>Contato</h2>
+            <form id="contato-form">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="mensagem">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" required></textarea>
+                
+                <button type="submit">Enviar</button>
+            </form>
+            <p id="mensagem-sucesso">Mensagem enviada com sucesso!</p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Quintal Perdizes. Todos os direitos reservados.</p>
+    </footer>
+    
+    <script>
+        document.getElementById("contato-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById("mensagem-sucesso").style.display = "block";
+        });
+    </script>
+</body>
+</html>
