@@ -1,3 +1,4 @@
+/* styles.css */
 /* Estilos Globais */
 body {
     font-family: 'Arial', sans-serif;
@@ -10,10 +11,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
 /* Estilo para o ícone de pessoa e menu suspenso */
 .dropdown-toggle {
     text-decoration: none;
@@ -28,7 +26,6 @@ header {
     font-size: 0.75rem;
     margin-left: 2px;
 }
-
 h1, h2, h3 {
     font-family: 'Georgia', serif;
     color: #007bff;
@@ -36,11 +33,11 @@ h1, h2, h3 {
 
 /* Estilo para o banner de introdução */
 .banner {
-    background-color: #8B4513;
+    background-color: #8B4513; /* Marrom escuro, cor associada às perdizes */
     color: white;
     padding: 100px 0;
     position: relative;
-    text-align: center;
+    overflow: hidden;
 }
 
 .banner h2 {
@@ -54,30 +51,48 @@ h1, h2, h3 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Ícones de perdizes como fundo */
+.banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: image('perdizes.png');
+    background-repeat: repeat;
+    opacity: 0.1; /* Opacidade baixa para não sobrecarregar o texto */
+    z-index: 1;
+}
+
+.banner .container {
+    position: relative;
+    z-index: 2;
+}
+/* styles.css */
 /* Carrossel */
 .carousel-item {
-    height: 300px;
+    height: 300px; /* Altura fixa para o carrossel */
 }
 
 .carousel-item img {
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Garante que a imagem cubra todo o espaço */
 }
 
 .carousel-caption {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
     padding: 20px;
     border-radius: 10px;
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* Cor dos ícones de controle */
     border-radius: 50%;
     padding: 10px;
 }
-
-/* Seção de Serviços */
+/* Serviços */
 .servicos {
     background-color: #f8f9fa;
     padding: 60px 0;
@@ -96,7 +111,7 @@ h1, h2, h3 {
     transform: translateY(-10px);
 }
 
-/* Seção de Produtos */
+/* Produtos */
 .produtos {
     padding: 60px 0;
 }
@@ -126,7 +141,7 @@ h1, h2, h3 {
     background-color: #0056b3;
 }
 
-/* Seção de Depoimentos */
+/* Depoimentos */
 .depoimentos {
     background-color: #e9ecef;
     padding: 60px 0;
@@ -147,7 +162,6 @@ footer {
     background-color: #343a40;
     color: white;
     padding: 40px 0;
-    text-align: center;
 }
 
 footer a {
@@ -159,7 +173,7 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Estilos para produtos individuais */
+/* styles.css */
 .produto {
     position: relative;
     padding: 15px;
@@ -173,7 +187,7 @@ footer a:hover {
 }
 
 .calcular-frete {
-    display: none;
+    display: none; /* Oculta inicialmente */
     position: absolute;
     top: 100%;
     left: 0;
@@ -186,14 +200,13 @@ footer a:hover {
 }
 
 .produto:hover .calcular-frete {
-    display: block;
+    display: block; /* Mostra ao passar o mouse */
 }
-
-/* Carrinho lateral */
+/* styles.css */
 .carrinho-lateral {
     position: fixed;
     top: 0;
-    right: -25%;
+    right: -25%; /* Esconde o carrinho */
     width: 25%;
     height: 100%;
     background-color: white;
@@ -204,7 +217,7 @@ footer a:hover {
 }
 
 .carrinho-lateral.aberto {
-    right: 0;
+    right: 0; /* Mostra o carrinho */
 }
 
 .carrinho-cabecalho {
@@ -221,7 +234,7 @@ footer a:hover {
     right: 20px;
 }
 
-/* Formulário de Cadastro */
+/* Estilos para o formulário de cadastro */
 #form-cadastro {
     max-width: 600px;
     margin: 0 auto;
@@ -277,3 +290,4 @@ footer a:hover {
     font-size: 14px;
     margin-top: 5px;
 }
+
