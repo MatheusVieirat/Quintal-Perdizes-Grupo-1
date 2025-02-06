@@ -1,43 +1,104 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Seleção de elementos
-    const elements = {
-        btnComprar: document.querySelectorAll(".btn-comprar"),
-        linksMenu: document.querySelectorAll(".navbar-nav a"),
-        cepInput: document.getElementById("cep"),
-        valorFrete: document.getElementById("valorFrete"),
-        listaCarrinho: document.getElementById("lista-carrinho"),
-        totalCarrinho: document.getElementById("total-carrinho"),
-        contadorCarrinho: document.getElementById("contador-carrinho"),
-        btnCarrinho: document.getElementById("btn-carrinho"),
-        carrinhoLateral: document.getElementById("carrinho-lateral"),
-        fecharCarrinho: document.getElementById("fechar-carrinho"),
-        formBusca: document.querySelector("form.d-flex"),
-        formCadastro: document.getElementById("form-cadastro"),
-        campoCep: document.getElementById("cep"),
-        campoLogradouro: document.getElementById("logradouro"),
-        campoBairro: document.getElementById("bairro"),
-        campoCidade: document.getElementById("cidade"),
-        campoEstado: document.getElementById("estado")
-    };
+    // Seleciona elementos
+    const btnComprar = document.querySelectorAll(".btn-comprar");
+    const linksMenu = document.querySelectorAll('.navbar-nav a');
+    const cepInput = document.getElementById('cep');
+    const valorFrete = document.getElementById('valorFrete');
+    const listaCarrinho = document.getElementById("lista-carrinho");
+    const totalCarrinho = document.getElementById("total-carrinho");
+    const contadorCarrinho = document.getElementById("contador-carrinho");
+    const btnCarrinho = document.getElementById("btn-carrinho");
+    const carrinhoLateral = document.getElementById("carrinho-lateral");
+    const fecharCarrinho = document.getElementById("fechar-carrinho");
+    const formBusca = document.querySelector("form.d-flex");
+    const formCadastro = document.getElementById("form-cadastro");
+    const campoCep = document.getElementById("cep");
+    const campoLogradouro = document.getElementById("logradouro");
+    const campoBairro = document.getElementById("bairro");
+    const campoCidade = document.getElementById("cidade");
+    const campoEstado = document.getElementById("estado");
 
+    // Eventos de clique para botões "Comprar"
+    btnComprar.forEach((botao) => {
+        botao.addEventListener("click", function (e) {
+            e.preventDefault();
+            const nomeProduto = this.getAttribute("data-nome"); // Obtém o nome do produto
+            const precoProduto = parseFloat(this.getAttribute("data-preco")); // Obtém o preço do produto
+            adicionarAoCarrinho(nomeProduto, precoProduto);
+        });
+    });
+
+    // Rolagem suave para links do menu
+    linksMenu.forEach((link) => {
+        link.addEventListener("click", function (e) {
+            const targetId = this.getAttribute("href");
+            if (targetId.startsWith("#")) {
+                e.preventDefault();
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: "smooth" });
+                }
+            }
+        });
+    });
+
+    // Cálculo de frete
+    document.getElementById('calcularFrete').addEventListener('click', () => {
+        const cep = cepInput.value.trim();
+
+        if (!validarCEP(cep)) {
+            alert("CEP inválido. Por favor, insira um CEP válido.");
+            return;
+        }
+
+        consultarCEP(cep)
+            .then(data => {
+                if (data.erro) {
+                    alert("CEP não encontrado.");
+                    return;
+                }
+
+                const frete = calcularFrete(data.uf);
+                valorFrete.textContent = `Frete: R$ ${frete.toFixed(2)}`;
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Erro ao consultar o CEP. Tente novamente.");
+            });
+    });
+
+    // Funções para validar, consultar e calcular frete
+    function validarCEP(cep) {
+        return /^[0-9]{5}-?[0-9]{3}$/.test(cep);
+    }
+
+    function consultarCEP(cep) {
+        return fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na consulta do CEP');
+                }
+                return response.json();
+            });
+    }
+
+    function calcularFrete(uf) {
+        const regiao = {
+            'SP': 10.00,
+            'RJ': 15.00,
+            'MG': 12.00,
+            'RS': 20.00,
+            // Adicione outras regiões conforme necessário
+        };
+
+        return regiao[uf] || 25.00;
+    }
+
+    // Funções para manipular o carrinho
     const carrinho = [];
 
-    // Adicionar produto ao carrinho
-    function adicionarAoCarrinho(nome, preco) {
-        carrinho.push({ nome, preco });
-        atualizarCarrinho();
-        alert(`${nome} foi adicionado ao carrinho!`);
-    }
-
-    // Remover produto do carrinho
-    function removerDoCarrinho(index) {
-        carrinho.splice(index, 1);
-        atualizarCarrinho();
-    }
-
-    // Atualizar carrinho
     function atualizarCarrinho() {
-        elements.listaCarrinho.innerHTML = "";
+        listaCarrinho.innerHTML = "";
         let total = 0;
 
         carrinho.forEach((produto, index) => {
@@ -47,96 +108,90 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${produto.nome} - R$ ${produto.preco.toFixed(2)}
                 <button class="btn btn-danger btn-sm" onclick="removerDoCarrinho(${index})">Remover</button>
             `;
-            elements.listaCarrinho.appendChild(li);
+            listaCarrinho.appendChild(li);
             total += produto.preco;
         });
 
-        elements.totalCarrinho.textContent = `R$ ${total.toFixed(2)}`;
-        elements.contadorCarrinho.textContent = carrinho.length;
+        totalCarrinho.textContent = `R$ ${total.toFixed(2)}`;
+        contadorCarrinho.textContent = carrinho.length;
     }
 
-    // Eventos
-    elements.btnComprar.forEach(botao => {
-        botao.addEventListener("click", function (e) {
-            e.preventDefault();
-            adicionarAoCarrinho(this.getAttribute("data-nome"), parseFloat(this.getAttribute("data-preco")));
-        });
-    });
+    window.adicionarAoCarrinho = function (nome, preco) {
+        carrinho.push({ nome, preco });
+        atualizarCarrinho();
+        alert(`${nome} foi adicionado ao carrinho!`);
+    };
 
-    elements.linksMenu.forEach(link => {
-        link.addEventListener("click", function (e) {
-            const targetId = this.getAttribute("href");
-            if (targetId.startsWith("#")) {
-                e.preventDefault();
-                document.querySelector(targetId)?.scrollIntoView({ behavior: "smooth" });
-            }
-        });
-    });
+    window.removerDoCarrinho = function (index) {
+        carrinho.splice(index, 1);
+        atualizarCarrinho();
+    };
 
-    elements.btnCarrinho.addEventListener("click", e => {
+    // Eventos para abrir e fechar o carrinho
+    btnCarrinho.addEventListener("click", function (e) {
         e.preventDefault();
-        elements.carrinhoLateral.classList.add("aberto");
+        carrinhoLateral.classList.add("aberto");
     });
 
-    elements.fecharCarrinho.addEventListener("click", () => {
-        elements.carrinhoLateral.classList.remove("aberto");
+    fecharCarrinho.addEventListener("click", function () {
+        carrinhoLateral.classList.remove("aberto");
     });
 
-    elements.formBusca.addEventListener("submit", function (e) {
+    // Barra de busca
+    formBusca.addEventListener("submit", function (e) {
         e.preventDefault();
-        alert(`Você buscou por: ${this.querySelector("input").value}`);
+        const termoBusca = this.querySelector("input").value;
+        alert(`Você buscou por: ${termoBusca}`);
+        // Implementar a lógica de busca aqui
     });
 
-    elements.formCadastro.addEventListener("submit", function (e) {
+    // Validação e envio do formulário de cadastro
+    formCadastro.addEventListener("submit", function (e) {
         e.preventDefault();
+
         const senha = document.getElementById("senha").value;
         const confirmarSenha = document.getElementById("confirmar-senha").value;
 
         if (senha !== confirmarSenha) {
-            return alert("As senhas não coincidem. Tente novamente.");
-        }
-        if (senha.length < 6) {
-            return alert("A senha deve ter no mínimo 6 caracteres.");
+            alert("As senhas não coincidem. Tente novamente.");
+            return;
         }
 
+        // Validações adicionais (exemplo)
+        if (senha.length < 6) {
+            alert("A senha deve ter no mínimo 6 caracteres.");
+            return;
+        }
+
+        // Simulação de cadastro (substituir por chamada ao servidor)
         alert("Cadastro realizado com sucesso!");
         window.location.href = "index.html";
     });
 
-    elements.cepInput.addEventListener("blur", function () {
-        const cep = this.value.replace(/\D/g, '');
+    // Autocompletar endereço pelo CEP
+    campoCep.addEventListener("blur", function () {
+        const cep = campoCep.value.replace(/\D/g, '');
+
         if (cep.length !== 8) {
-            return alert("CEP inválido. Digite um CEP com 8 dígitos.");
+            alert("CEP inválido. Digite um CEP com 8 dígitos.");
+            return;
         }
 
         fetch(`https://viacep.com.br/ws/${cep}/json/`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.erro) return alert("CEP não encontrado.");
-                elements.campoLogradouro.value = data.logradouro;
-                elements.campoBairro.value = data.bairro;
-                elements.campoCidade.value = data.localidade;
-                elements.campoEstado.value = data.uf;
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.erro) {
+                    alert("CEP não encontrado.");
+                    return;
+                }
+
+                campoLogradouro.value = data.logradouro;
+                campoBairro.value = data.bairro;
+                campoCidade.value = data.localidade;
+                campoEstado.value = data.uf;
             })
-            .catch(() => alert("Erro ao consultar o CEP. Tente novamente."));
+            .catch(() => {
+                alert("Erro ao consultar o CEP. Tente novamente.");
+            });
     });
-
-    document.getElementById("calcularFrete").addEventListener("click", () => {
-        const cep = elements.cepInput.value.trim();
-        if (!/^[0-9]{5}-?[0-9]{3}$/.test(cep)) {
-            return alert("CEP inválido. Por favor, insira um CEP válido.");
-        }
-
-        fetch(`https://viacep.com.br/ws/${cep}/json/`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.erro) return alert("CEP não encontrado.");
-                const frete = { 'SP': 10, 'RJ': 15, 'MG': 12, 'RS': 20 }[data.uf] || 25;
-                elements.valorFrete.textContent = `Frete: R$ ${frete.toFixed(2)}`;
-            })
-            .catch(() => alert("Erro ao consultar o CEP. Tente novamente."));
-    });
-
-    window.adicionarAoCarrinho = adicionarAoCarrinho;
-    window.removerDoCarrinho = removerDoCarrinho;
 });
