@@ -33,12 +33,24 @@ h1, h2, h3 {
 
 /* Estilo para o banner de introdução */
 .banner {
-    background-color: #624A3E; /* Marrom escuro, cor associada às perdizes */
-    color: #915d43;
+    background-color: #624A3E; /* Marrom escuro */
+    color: #ffffff; /* Texto branco para contraste */
     padding: 100px 0;
     position: relative;
     overflow: hidden;
+    text-align: center; /* Centraliza o conteúdo */
 }
+
+.banner h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.banner p {
+    font-size: 1.2rem;
+    opacity: 0.9; /* Um leve efeito para melhorar a leitura */
+}
+
 
 .banner h2 {
     font-size: 3rem;
